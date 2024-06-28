@@ -405,69 +405,58 @@
         ];
       
         startButton.addEventListener('click', () => {
-          // Disable button during spin
-          startButton.style.pointerEvents = 'none';
-      
-          // Calculate a new rotation angle based on the number of clicks
-          const markerAngle = -Math.atan2(marker.offsetTop, marker.offsetLeft) * (180 / Math.PI);
-          let snailAngle;
-      
-          function getRandomInt(max) {
-            return Math.floor(Math.random() * max);
-          }
-      
-         
-    function shouldReleasePrize(probability) {
-      return getRandomInt(100) < probability; // Retorna verdadeiro baseado na probabilidade passada
-    }
-      
-       
-    console.log("Clicks:", clicks);
-    console.log("Marker Angle:", markerAngle); // Adicionado para depuração
-    let bottomReleasedCount = 0;
-    let nothingReleasedCount = 0;
+  // Disable button during spin
+startButton.style.pointerEvents = 'none';
+
+// Calculate a new rotation angle based on the number of clicks
+const markerAngle = -Math.atan2(marker.offsetTop, marker.offsetLeft) * (180 / Math.PI);
+let snailAngle;
+
+console.log("Clicks:", clicks);
+console.log("Marker Angle:", markerAngle); // Adicionado para depuração
+
+if (clicks <= 1000) {
     switch (clicks) {
-         
+        
+       
+        case 16:
+        snailAngle = 252 + markerAngle; //mouse
+        break;  
 
+        case 30:
+        case 45:
+            snailAngle = 324 + markerAngle; //squezze
+            break;
 
+        case 60:
+        snailAngle = 72 + markerAngle; //camiseta
+        break;
 
+        case 75:
+        snailAngle = 324 + markerAngle; //squezze
+        break;
 
+        case 90:
+        snailAngle = 72 + markerAngle; //camiseta
+        break;
 
-
-    default:
-    if (clicks <= 1000) {
-  // Verificar se podemos liberar "Mouse", "Camiseta", "Copo", "Cooler", "Monitor", "Cadeira" ou "Gabinete" e se o aleatório permite
-  if (mouseReleasedCount < 1 && shouldReleasePrize(10)) { // 10% chance para liberar "Mouse"
-    snailAngle = 252 + markerAngle; // Mouse
-    mouseReleasedCount++;
-  } else if (camisetaReleasedCount < 1 && shouldReleasePrize(2)) { // 2% chance para liberar "Camiseta"
-    snailAngle = 72 + markerAngle; // Camiseta
-    camisetaReleasedCount++;
-  } else if (copoReleasedCount < 3 && shouldReleasePrize(5)) { // 5% chance para liberar "Copo"
-    snailAngle = 324 + markerAngle; // Copo
-    copoReleasedCount++;
-  } else if (coolerReleasedCount < 1 && shouldReleasePrize(0.25)) { // 0,25% chance para liberar "Cooler"
-    snailAngle = 108 + markerAngle; // Cooler
-    coolerReleasedCount++;
-  }  else if (gabineteReleasedCount < 1 && shouldReleasePrize(0.05)) { // 0,05% chance para liberar "Gabinete"
-    snailAngle = 216 + markerAngle; // Gabinete
-    gabineteReleasedCount++;
-  }  else {
-        // Intercalar entre bottom, nothing e Cordão até 250 vezes cada
-        if (clicks % 2 === 0 && bottomReleasedCount < 250) {
-            snailAngle = 360 + markerAngle; // bottom
-            bottomReleasedCount++;
-        } else if (clicks % 2 === 1 && nothingReleasedCount < 250) {
-            snailAngle = 180 + markerAngle; // nothing
-            nothingReleasedCount++;
-        } else {
-            snailAngle = 0 + markerAngle; // Cordão (ou qualquer outro prêmio default)
-        }
+        case 105:
+        snailAngle = 108 + markerAngle; //cooler
+        break;
+        case 155:
+        snailAngle = 216 + markerAngle; //cooler
+        break;
+       
+        default:
+            if (clicks % 2 === 0 && bottomReleasedCount < 250) {
+                snailAngle = 360 + markerAngle; // Ângulo para o prêmio Bottom
+                bottomReleasedCount++;
+            } else if (clicks % 2 === 1 && nothingReleasedCount < 250) {
+                snailAngle = 180 + markerAngle; // Ângulo para o prêmio Nothing
+                nothingReleasedCount++;
+            } 
     }
 }
-
-      break;
-  }
 
   console.log("Snail Angle:", snailAngle); // Adicionado para depuração
   console.log("Mouse Released Count:", mouseReleasedCount); // Adicionado para depuração
